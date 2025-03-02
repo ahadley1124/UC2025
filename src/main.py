@@ -35,24 +35,43 @@ stepper_motor_AZ = stepper.StepperMotor(
     pca.channels[9], pca.channels[10], pca.channels[11], pca.channels[12],
 )
 
-for i in range(100):
-
-    stepper_motor_EL.onestep()
-    stepper_motor_AZ.onestep()
-
-    time.sleep(0.01)
-
-
-for i in range(100):
-
-    stepper_motor_EL.onestep(direction=stepper.BACKWARD)
-    stepper_motor_AZ.onestep(direction=stepper.BACKWARD)
-
-    time.sleep(0.01)
+horizontal = 360
+vertical = 90
+    
+def degrees_to_steps(degree):
+    step = degree/1.8
+    return int(step)
 
 
+def step_AZ(steps):
+    for step in range(steps):
+        stepper_motor_AZ.onestep()
+        time.sleep(0.01)
+        
+def step_EL(steps):
+    for step in range(steps):
+        stepper_motor_EL.onestep()
+        time.sleep(0.01)
+        
+
+#for i in range(100):
+#    stepper_motor_EL.onestep()
+#    stepper_motor_AZ.onestep()
+#    time.sleep(0.01)
+#
+#for i in range(100):
+#    stepper_motor_EL.onestep(direction=stepper.BACKWARD)
+#    stepper_motor_AZ.onestep(direction=stepper.BACKWARD)
+#    time.sleep(0.01)
+#
 #for j in range(20):
 #	for i in range(100):
 #		stepper_motor_EL.onestep()
 
-pca.deinit()
+if __name__ == '__main__':
+    AZ_Steps = degrees_to_steps(horizontal)
+    EL_Steps = degrees_to_steps(vertical)
+    
+    step_AZ(AZ_Steps)
+    step_EL(EL_Steps)
+    pca.deinit()
